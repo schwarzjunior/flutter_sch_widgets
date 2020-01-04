@@ -1,3 +1,4 @@
+import 'package:example/components/sch_expansion_tile_2_page.dart';
 import 'package:example/components/sch_expansion_tile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,12 @@ class HomePage extends StatelessWidget {
                 child: Text('SchExpansionTile'),
                 onPressed: () {
                   _gotoPage(context, SchExpansionTilePage());
+                },
+              ),
+              RaisedButton(
+                child: Text('SchExpansionTile2'),
+                onPressed: () {
+                  _gotoPage(context, SchExpansionTile2Page());
                 },
               ),
             ],

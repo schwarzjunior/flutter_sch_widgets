@@ -25,19 +25,18 @@ class SchExpansionTile extends StatefulWidget {
     this.children = const <Widget>[],
     this.initiallyExpanded = false,
     this.onExpansionChanged,
-    this.margin = const EdgeInsets.symmetric(vertical: 16.0),
+    this.margin = const EdgeInsets.symmetric(vertical: 0.0),
     this.headerPadding = const EdgeInsets.symmetric(horizontal: 8.0),
     this.contentPadding = const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-    this.defaultColor,
-    this.backgroundColor,
-    this.decoration = const SchExpansionTileDecoration(),
     this.trailingIcon = Icons.expand_more,
     this.trailingVisibility = true,
     this.trailingRotation = true,
+    this.decoration = const SchExpansionTileDecoration(),
   })  : assert(initiallyExpanded != null),
         assert(margin != null),
         assert(headerPadding != null),
         assert(contentPadding != null),
+        assert(trailingIcon != null),
         assert(trailingVisibility != null),
         assert(trailingRotation != null),
         super(key: key);
@@ -76,15 +75,6 @@ class SchExpansionTile extends StatefulWidget {
   /// The padding of the tile's children.
   final EdgeInsetsGeometry contentPadding;
 
-  /// The default color value to the tile header.
-  final Color defaultColor;
-
-  /// The color to display behind the sublist when expanded.
-  final Color backgroundColor;
-
-  /// The decoration of [ListTile].
-  final SchExpansionTileDecoration decoration;
-
   /// The icon to display after the title.
   final IconData trailingIcon;
 
@@ -93,6 +83,9 @@ class SchExpansionTile extends StatefulWidget {
 
   /// If the trailing icon must rotate on expand.
   final bool trailingRotation;
+
+  /// The decoration of [ListTile].
+  final SchExpansionTileDecoration decoration;
 
   @override
   _SchExpansionTileState createState() => _SchExpansionTileState();
@@ -163,8 +156,7 @@ class _SchExpansionTileState extends State<SchExpansionTile> with SingleTickerPr
     return Container(
       margin: widget.margin,
       decoration: BoxDecoration(
-        color: _backgroundColor.value ?? widget.backgroundColor?.withOpacity(0.2) ?? Colors.transparent,
-        // color: _backgroundColor.value ?? Colors.transparent,
+        color: _backgroundColor.value ?? Colors.transparent,
         border: Border.fromBorderSide(
           BorderSide(color: borderSideColor, width: widget?.decoration?.borderWidth),
         ),
@@ -204,19 +196,19 @@ class _SchExpansionTileState extends State<SchExpansionTile> with SingleTickerPr
 
   @override
   void didChangeDependencies() {
-    final Color defaultColor = widget.defaultColor;
-    final SchExpansionTileDecoration decoration = widget.decoration;
     final ThemeData theme = Theme.of(context);
     _borderColorTween
-      ..begin = decoration?.borderColorBegin ?? theme.dividerColor
-      ..end = decoration?.borderColorEnd ?? decoration?.borderColorBegin ?? theme.dividerColor;
+      ..begin = widget?.decoration?.borderColorBegin ?? theme.dividerColor
+      ..end = widget?.decoration?.borderColorEnd ?? theme.dividerColor;
     _headerColorTween
-      ..begin = decoration?.headerColorBegin ?? defaultColor ?? theme.textTheme.subhead.color
-      ..end = decoration?.headerColorEnd ?? defaultColor ?? theme.accentColor;
+      ..begin = widget?.decoration?.headerColorBegin ?? theme.textTheme.subhead.color
+      ..end = widget?.decoration?.headerColorEnd ?? theme.accentColor;
     _iconColorTween
-      ..begin = decoration?.iconColorBegin ?? defaultColor ?? theme.unselectedWidgetColor
-      ..end = decoration?.iconColorEnd ?? defaultColor ?? theme.accentColor;
-    _backgroundColorTween..end = widget.backgroundColor;
+      ..begin = widget?.decoration?.iconColorBegin ?? theme.unselectedWidgetColor
+      ..end = widget?.decoration?.iconColorEnd ?? theme.accentColor;
+    _backgroundColorTween
+      ..begin = widget?.decoration?.backgroundColorBegin ?? Colors.transparent
+      ..end = widget?.decoration?.backgroundColorEnd ?? widget?.decoration?.backgroundColorBegin ?? Colors.transparent;
     super.didChangeDependencies();
   }
 
@@ -241,6 +233,8 @@ class _SchExpansionTileState extends State<SchExpansionTile> with SingleTickerPr
 ///
 class SchExpansionTileDecoration {
   const SchExpansionTileDecoration({
+    this.backgroundColorBegin,
+    this.backgroundColorEnd,
     this.borderColorBegin,
     this.borderColorEnd,
     this.headerColorBegin,
@@ -248,9 +242,15 @@ class SchExpansionTileDecoration {
     this.iconColorBegin,
     this.iconColorEnd,
     this.borderWidth = 1.0,
-    this.borderRadius = 16.0,
+    this.borderRadius = 8.0,
   })  : assert(borderWidth != null),
         assert(borderRadius != null);
+
+  /// Them begin animation color of the background.
+  final Color backgroundColorBegin;
+
+  /// The end animation color of the background.
+  final Color backgroundColorEnd;
 
   /// The begin animation color of the border.
   final Color borderColorBegin;

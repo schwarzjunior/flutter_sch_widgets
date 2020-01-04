@@ -9,50 +9,25 @@ class SchExpansionTilePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('SchExpansionTile example')),
-      backgroundColor: Colors.white.withAlpha(60),
+//      backgroundColor: Colors.white.withAlpha(60),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
             SchExpansionTile(
               margin: const EdgeInsets.only(top: 26),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(right: 12),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent.withAlpha(30),
-                      border: Border.all(color: Colors.transparent.withAlpha(60), width: 1.5),
-                    ),
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                        fontSize: Theme.of(context).textTheme.title.fontSize,
-                        letterSpacing: -1,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    'Default decoration',
-                    style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.headline.fontSize,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
+              title: _buildTitle(context, 'Default decoration'),
               children: <Widget>[
                 Text(_overview, textAlign: TextAlign.justify),
               ],
+              decoration: SchExpansionTileDecoration(
+                borderWidth: 1.0,
+              ),
             ),
             SchExpansionTile(
               margin: const EdgeInsets.only(top: 26),
-              defaultColor: Colors.indigoAccent,
-              backgroundColor: Colors.lightBlue.withAlpha(80),
+//              defaultColor: Colors.indigoAccent,
+//              backgroundColor: Colors.lightBlue.withAlpha(80),
               decoration: SchExpansionTileDecoration(
                 borderWidth: 0.3,
                 borderRadius: 8.0,
@@ -63,37 +38,7 @@ class SchExpansionTilePage extends StatelessWidget {
                 iconColorBegin: Colors.white,
                 iconColorEnd: Colors.orange,
               ),
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(right: 12),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent.withAlpha(30),
-                      border: Border.all(color: Colors.transparent.withAlpha(60), width: 1.5),
-                    ),
-                    child: Text(
-                      '02',
-                      style: TextStyle(
-                        fontSize: Theme.of(context).textTheme.title.fontSize,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -1,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    'Decorated',
-                    style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.headline.fontSize,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
+              title: _buildTitle(context, 'Decorated'),
               children: <Widget>[
                 Text(
                   _overview,
@@ -120,6 +65,40 @@ class SchExpansionTilePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTitle(BuildContext context, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.transparent.withAlpha(80),
+            border: Border.all(color: Colors.transparent.withAlpha(60), width: 1.5),
+          ),
+          child: Text(
+            '01',
+            style: TextStyle(
+              fontSize: Theme.of(context).textTheme.title.fontSize,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -1,
+            ),
+          ),
+        ),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: Theme.of(context).textTheme.headline.fontSize,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
     );
   }
 }
